@@ -1,4 +1,10 @@
+#include <Servo.h>
 
+int angle1=180; //initial angle for servo
+int angle2=0;   //final angle
+
+Servo servo1; 
+Servo servo2;
 
 
 int state;
@@ -9,11 +15,13 @@ void left();
 void right();
 void back();
 void setup()
-{
+{   servo1.attach(2);
+    servo1.write(angle1);
     pinMode(7,OUTPUT);                  
     pinMode(8,OUTPUT);                  
     pinMode(5,OUTPUT);                  
-    pinMode(6,OUTPUT);                  
+    pinMode(6,OUTPUT);   
+                 
 Serial.begin(9600);                                         
 }
 void loop() {
@@ -51,19 +59,19 @@ void loop() {
     }
     else if (state == '4')
     {
-        left();
+        serv_rotate();
         if(flag == 0)
         {
-          Serial.println("Left");
+          Serial.println("Sevo actuated");
           flag=1;
          }
     }
    else if (state == '5')
   {
-        right();
+        stepper_rotate();
         if(flag == 0)
         {
-          Serial.println("Right");
+          Serial.println("Stepper actuated");
           flag=1;
          }
     }
@@ -82,24 +90,15 @@ void back()
   digitalWrite(7,LOW);
   digitalWrite(5,LOW);
 }
-void left()         
+void serv_rotate()         
 {
-  digitalWrite(7,HIGH);
-  digitalWrite(5,LOW);
-  digitalWrite(8,LOW);
-  digitalWrite(6,LOW);
+ servo1.write(angle2);
 }
-void right()          
+void stepper_rotate()          
 {
-  digitalWrite(7,LOW);
-  digitalWrite(5,HIGH);
-  digitalWrite(8,LOW);
-  digitalWrite(6,LOW);
+  //stepper
 }
 void stp()            
 {
-  digitalWrite(7,LOW);
-  digitalWrite(8,LOW);
-  digitalWrite(5,LOW);
-  digitalWrite(6,LOW);
+ 
 }
