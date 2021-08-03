@@ -1,6 +1,6 @@
 #include <Stepper.h>
 const int stepsPerRevolution = 90;
-
+//22
 #include<Servo.h>
 Servo servo1; //for clamping
 Servo servo2; //for picking
