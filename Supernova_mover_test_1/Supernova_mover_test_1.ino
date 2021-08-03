@@ -1,7 +1,12 @@
+#include <Stepper.h>
+const int stepsPerRevolution = 90;
 
 #include<Servo.h>
-Servo servo1;
-Servo servo2;
+Servo servo1; //for clamping
+Servo servo2; //for picking
+Servo servo3; //for adjustment
+
+Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
 
 String state= " ";
 int flag=0;       
@@ -11,8 +16,11 @@ void left();
 void right();
 void back();
 void setup()
-{   servo1.attach(13);
+{ myStepper.setSpeed(5);
+  
+  servo1.attach(13);
     servo2.attach(12);
+    servo3.attach(11);
     pinMode(7,OUTPUT);                  
     pinMode(8,OUTPUT);                  
     pinMode(5,OUTPUT);                  
@@ -73,7 +81,7 @@ void loop() {
     }
    else if (state == "O")
   {
-        right();
+        uproller();
         if(flag == 0)
         {
           Serial.println("UpRoller");
@@ -82,26 +90,10 @@ void loop() {
     }
     else if (state == "Z")
   {
-        right();
+        downroller();
         if(flag == 0)
         {
           Serial.println("DownRoller");
-          flag=1;
-         }
-    }else if (state == "X")
-  {
-        right();
-        if(flag == 0)
-        {
-          Serial.println("Speed1x");
-          flag=1;
-         }
-    }else if (state == "W")
-  {
-        right();
-        if(flag == 0)
-        {
-          Serial.println("Speed2x");
           flag=1;
          }
     }
@@ -120,19 +112,17 @@ void back()
   digitalWrite(7,LOW);
   digitalWrite(5,LOW);
 }
-void left()         
+void downroller()         
 {
-  digitalWrite(7,HIGH);
-  digitalWrite(5,LOW);
-  digitalWrite(8,LOW);
-  digitalWrite(6,LOW);
+  Serial.println("counterclockwise");
+   myStepper.step(-stepsPerRevolution);
+   delay(500);
 }
-void right()          
+void uproller()          
 {
-  digitalWrite(7,LOW);
-  digitalWrite(5,HIGH);
-  digitalWrite(8,LOW);
-  digitalWrite(6,LOW);
+  Serial.println("clockwise");
+   myStepper.step(stepsPerRevolution);
+   delay(500);
 }
 void stp()            
 {
@@ -142,11 +132,13 @@ void stp()
   digitalWrite(6,LOW);
 }
 void picker()
-{servo1.write(50);
-servo2.write(50);
+{servo1.write(60);
+delay(100);
+servo2.write(30);
 }
 
 void unpicker(){
-  servo1.write(50);
+servo1.write(50);
+delay(100);
 servo2.write(50);
 }
