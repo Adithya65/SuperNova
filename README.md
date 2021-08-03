@@ -1,4 +1,4 @@
 # SuperNova
 
 ### App Design
-![](Mobile Interface.jpg)
+![](Mobile%20Interface.jpg)
