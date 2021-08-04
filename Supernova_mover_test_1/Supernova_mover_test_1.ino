@@ -11,13 +11,9 @@ const int dirPin2 = 4;
 const int stepPin2 = 5;
 const int stepsPerRevolution = 200;
 
-String state= " ";
-int flag=0;       
-void stp();
-void fwd();
-void left();
-void right();
-void back();
+String state= "";
+int flag=0;   
+
 void setup()
 {  pinMode(stepPin1, OUTPUT);
   pinMode(dirPin1, OUTPUT);
@@ -34,7 +30,7 @@ void setup()
 Serial.begin(9600);                                         
 }
 void loop() {
-    if(Serial.available()== true)      
+    if(Serial.available())      
     {    
        state= Serial.readString();
        Serial.println(state);
@@ -51,57 +47,81 @@ void loop() {
     }
     else if (state == "F")
     {
-        fwd();
+        
         if(flag == 0)
         {
           Serial.println("Forward");
           flag=1;
          }
+         fwd();
+    }
+    else if (state="T")
+    {
+      if(flag == 0)
+        {
+          Serial.println("Trigger");
+          flag=1;
+         }
+        trigger();
+    }
+    else if (state == "M")
+    {
+      if(flag == 0)
+        {
+          Serial.println("unTrigger");
+          flag=1;
+         }
+        untrigger();
     }
     else if (state == "B")
     {
-        back();
+        
         if(flag == 0)
         {
           Serial.println("Backward");
           flag=1;
         }
+        back();
     }
-    else if (state == "p")
+    else if (state == "P")
     {
-        picker();
+        
         if(flag == 0)
         {
           Serial.println("Picker");
           flag=1;
          }
+         picker();
     }
     else if (state == "U")
   {
-        unpicker();
+        
         if(flag == 0)
         {
           Serial.println("Unpicker");
           flag=1;
          }
+         unpicker();
     }
    else if (state == "O")
   {
-        uproller();
+        
         if(flag == 0)
         {
           Serial.println("UpRoller");
           flag=1;
          }
+         uproller();
     }
     else if (state == "Z")
   {
-        downroller();
+        
         if(flag == 0)
         {
           Serial.println("DownRoller");
           flag=1;
          }
+         downroller();
     }
 }                                          
 void fwd()          
@@ -110,6 +130,8 @@ void fwd()
   digitalWrite(5,HIGH);
   digitalWrite(6,LOW);
   digitalWrite(8,LOW);
+  Serial.println("fwd is working");
+  delay(100);
 }
 void back()          
 {
@@ -117,6 +139,8 @@ void back()
   digitalWrite(6,HIGH);
   digitalWrite(7,LOW);
   digitalWrite(5,LOW);
+  delay(100);
+  Serial.println("back is working");
 }
 void downroller()         
 {
@@ -134,6 +158,7 @@ void downroller()
     delayMicroseconds(2000);
   }
   delay(1000); 
+  Serial.println("downroller is working");
 }
 void uproller()          
 {
@@ -151,6 +176,7 @@ void uproller()
     delayMicroseconds(2000);
   }
   delay(1000); 
+  Serial.println("uproller is working");
 }
 void stp()            
 {
@@ -158,15 +184,29 @@ void stp()
   digitalWrite(8,LOW);
   digitalWrite(5,LOW);
   digitalWrite(6,LOW);
+  Serial.println("stop is working");
+  delay(100);
 }
 void picker()
 {servo1.write(60);
 delay(100);
 servo2.write(30);
+Serial.println("picker is working");
 }
 
 void unpicker(){
 servo1.write(50);
 delay(100);
 servo2.write(50);
+Serial.println("unpicker is working");
+}
+
+
+void trigger()
+{servo3.write(90);
+Serial.println("trigger is working");
+}
+void untrigger(){
+servo3.write(0);
+//Serial.println("untrigger is working");
 }
