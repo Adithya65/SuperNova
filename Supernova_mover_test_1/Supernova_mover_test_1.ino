@@ -1,12 +1,15 @@
 #include <Stepper.h>
-const int stepsPerRevolution = 90;
-//22
+
 #include<Servo.h>
 Servo servo1; //for clamping
 Servo servo2; //for picking
 Servo servo3; //for adjustment
 
-Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
+const int dirPin1 = 2;
+const int stepPin1 = 3;
+const int dirPin2 = 4;
+const int stepPin2 = 5;
+const int stepsPerRevolution = 200;
 
 String state= " ";
 int flag=0;       
@@ -16,7 +19,10 @@ void left();
 void right();
 void back();
 void setup()
-{ myStepper.setSpeed(5);
+{  pinMode(stepPin1, OUTPUT);
+  pinMode(dirPin1, OUTPUT);
+  pinMode(stepPin2, OUTPUT);
+  pinMode(dirPin2, OUTPUT);
   
   servo1.attach(13);
     servo2.attach(12);
@@ -114,15 +120,37 @@ void back()
 }
 void downroller()         
 {
-  Serial.println("counterclockwise");
-   myStepper.step(-stepsPerRevolution);
-   delay(500);
+  digitalWrite(dirPin1, LOW);
+   digitalWrite(dirPin2, LOW);
+ 
+  // Spin motor slowly
+  for(int x = 0; x < stepsPerRevolution; x++)
+  {
+    digitalWrite(stepPin1, HIGH);
+     digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(2000);
+    digitalWrite(stepPin1, LOW);
+     digitalWrite(stepPin2, LOW);
+    delayMicroseconds(2000);
+  }
+  delay(1000); 
 }
 void uproller()          
 {
-  Serial.println("clockwise");
-   myStepper.step(stepsPerRevolution);
-   delay(500);
+   digitalWrite(dirPin1, HIGH);
+   digitalWrite(dirPin2, HIGH);
+ 
+  // Spin motor slowly
+  for(int x = 0; x < stepsPerRevolution; x++)
+  {
+    digitalWrite(stepPin1, HIGH);
+     digitalWrite(stepPin2, HIGH);
+    delayMicroseconds(2000);
+    digitalWrite(stepPin1, LOW);
+     digitalWrite(stepPin2, LOW);
+    delayMicroseconds(2000);
+  }
+  delay(1000); 
 }
 void stp()            
 {
