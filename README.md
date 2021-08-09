@@ -1,7 +1,7 @@
 # SuperNova
 
 ### App Design
-![](Mobile%20Interface.jpg)
+![](Application%20Interface.jpg)
 
 
 ### Circuit Design
