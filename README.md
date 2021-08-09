@@ -6,4 +6,4 @@
 
 ### Circuit Design
 
-![](Circuit.PNG)
+![](Circuit%20.PNG)
