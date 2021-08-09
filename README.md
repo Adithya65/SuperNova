@@ -1,7 +1,6 @@
 # SuperNova
 
-### App Design
-![](Application%20Interface.jpg)
+
 
 
 ### Circuit Design
