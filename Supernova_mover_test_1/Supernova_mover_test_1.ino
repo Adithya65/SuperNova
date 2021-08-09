@@ -27,12 +27,13 @@ void setup()
     pinMode(8,OUTPUT);                  
     pinMode(5,OUTPUT);                  
     pinMode(6,OUTPUT);                  
-Serial.begin(9600);                                         
+Serial.begin(9600);     
+Serial1.begin(9600);                                    
 }
 void loop() {
-    if(Serial.available())      
+    if(Serial1.available())      
     {    
-       state= Serial.readString();
+       state= Serial1.readString();
        Serial.println(state);
        
       flag=0;
@@ -55,23 +56,23 @@ void loop() {
          }
          fwd();
     }
-    else if (state="T")
-    {
+    else if (state=="T")
+    {  trigger();
       if(flag == 0)
         {
           Serial.println("Trigger");
           flag=1;
          }
-        trigger();
+        
     }
     else if (state == "M")
     {
       if(flag == 0)
         {
-          Serial.println("unTrigger");
+          Serial.println("Reset");
           flag=1;
          }
-        untrigger();
+        Reset();
     }
     else if (state == "B")
     {
@@ -206,7 +207,7 @@ void trigger()
 {servo3.write(90);
 Serial.println("trigger is working");
 }
-void untrigger(){
+void Reset(){
 servo3.write(0);
 //Serial.println("untrigger is working");
 }
